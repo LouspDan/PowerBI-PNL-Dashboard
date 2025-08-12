@@ -134,7 +134,7 @@
 ```
 📦 PowerBI-Financial-Dashboard/
 ├── 📊 Reports/
-│   ├── PowerBI_Financial_Dashboard.pbix       # Fichier Power BI principal
+│   ├── PowerBI_Financial_Dashboard.pbit       # Fichier Power BI principal
 │   └── Data_Model_Schema.png                  # Schéma du modèle relationnel
 ├── 📁 Data_Sources/
 │   ├── Fact_table.xlsx                        # Table de faits Depense
@@ -204,7 +204,7 @@
 - **📊 Dashboard Interactif :** [Power BI Service](lien-vers-powerbi-service) *(Accès sur demande)*
 - **💼 Portfolio Complet :** [LinkedIn - Ésaïe  LUPEPÉLÉ](https://www.linkedin.com/in/esaie-lupepele)
 - **🔧 Autres Projets :** [Mapping Infor M3](https://github.com/LouspDan/Mapping-Infor-M3)
-- **📧 Profil Freelence  :** https://www.malt.fr/profile/esaielupepele
+- **📧 Profil Freelence  :** [Malt - Ésaïe LUPEPÉLÉ]( https://www.malt.fr/profile/esaielupepele)
 - **📧 Contact Projet :** esaie.lupepele@gmail.com
 
 ## 📄 Méthodologie et Apprentissages
