@@ -12,7 +12,7 @@
 - Quelles sont les évolutions par rapport aux années précédentes ?
 - Où concentrer nos efforts d'optimisation géographique ?
 
-## 🏗️ Architecture Technique
+## 📁 Architecture Technique
 
 ### Modèle de Données
 **Architecture Étoile :**
@@ -182,27 +182,19 @@
 
 ## 🚀 Démo et Captures d'Écran
 
-### Vue d'Ensemble - Page d'Accueil
-![Page d'Accueil](screenshots/01_Accueil_Vue_Synthetique.png)
-*Tableau de bord exécutif avec KPIs consolidés et alertes visuelles*
+### Tableau de bord exécutif avec KPIs consolidés et alertes visuelles*
 
 ### Analyse Business Unit
-![Business Units](screenshots/02_Analyse_Business_Unit.png)
+![Business Units](screenshots/Analyse_Business_Unit.png)
 *Performance comparative des 8 Business Units avec évolutions temporelles*
 
 ### Cartographie des Performances
-![Analyse Géographique](screenshots/03_Analyse_Geographique.png)
+![Analyse Géographique](screenshots/Analyse_Geographique.png)
 *Visualisation géographique interactive des budgets et réalisations*
 
 ### Détail par Pays
-![Analyse par Pays](screenshots/04_Analyse_par_Pays.png)
+![Analyse_par_Pays](screenshots/Analyse par Pays.png)
 *Tableau détaillé des contributions par pays avec classement*
-
-## 🎥 Démonstration Vidéo
-
-[![Démo Power BI Dashboard](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://youtu.be/YOUR_VIDEO_ID)
-
-**Durée :** 3 minutes | **Contenu :** Navigation complète et présentation des insights clés
 
 ## 🔗 Liens Utiles
 
@@ -234,7 +226,7 @@
 
 ## 📊 Métriques du Projet
 
-- **⏱️ Temps de Développement :** 3 semaines (60h)
+- **⏱️ Temps de Développement :** 2 semaines (60h)
 - **📏 Complexité Technique :** 25+ mesures DAX, 4 dimensions, 15K+ lignes
 - **👥 Impact Utilisateurs :** Dashboard multi-profils (Executives, Controllers, Analysts)
 - **🎯 Valeur Business :** Identification 3M€ d'optimisations potentielles
