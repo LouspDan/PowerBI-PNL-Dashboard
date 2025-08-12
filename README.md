@@ -182,7 +182,10 @@
 
 ## 🚀 Démo et Captures d'Écran
 
+### Analyse Business Unit
 ### Tableau de bord exécutif avec KPIs consolidés et alertes visuelles*
+
+![Analyse P&L Détaillée](screenshots/Analyse_P&L_Multi-Entités.png)
 
 ### Analyse Business Unit
 ![Business Units](screenshots/Analyse_Business_Unit.png)
@@ -193,14 +196,15 @@
 *Visualisation géographique interactive des budgets et réalisations*
 
 ### Détail par Pays
-![Analyse_par_Pays](screenshots/Analyse par Pays.png)
+![Analyse_par_Pays](screenshots/Analyse_par_Pays.png)
 *Tableau détaillé des contributions par pays avec classement*
 
 ## 🔗 Liens Utiles
 
 - **📊 Dashboard Interactif :** [Power BI Service](lien-vers-powerbi-service) *(Accès sur demande)*
-- **💼 Portfolio Complet :** [LinkedIn - Ésaïe Daniel LUPEPÉLÉ](https://www.linkedin.com/in/esaie-lupepele)
+- **💼 Portfolio Complet :** [LinkedIn - Ésaïe  LUPEPÉLÉ](https://www.linkedin.com/in/esaie-lupepele)
 - **🔧 Autres Projets :** [Mapping Infor M3](https://github.com/LouspDan/Mapping-Infor-M3)
+- **📧 Profil Freelence  :** https://www.malt.fr/profile/esaielupepele
 - **📧 Contact Projet :** esaie.lupepele@gmail.com
 
 ## 📄 Méthodologie et Apprentissages
