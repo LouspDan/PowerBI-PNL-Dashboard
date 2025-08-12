@@ -1,0 +1,112 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 743,
+            "y": 0
+          },
+          "nodeIndex": "Entity",
+          "nodeLineageTag": "89699795-a746-413e-9fca-ce06a2052d62",
+          "size": {
+            "height": 334,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 490.79999923706055,
+            "y": 0
+          },
+          "nodeIndex": "Calendrier",
+          "nodeLineageTag": "ed032e78-7ef9-4e18-9b24-8c4beffe6101",
+          "size": {
+            "height": 282,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 304.10000610351563
+          },
+          "nodeIndex": "PHASE",
+          "nodeLineageTag": "0a8fbdb4-c1f4-496b-bb2d-ff32ae12b0fb",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 79,
+            "y": 0
+          },
+          "nodeIndex": "Compte",
+          "nodeLineageTag": "53ca1062-c5ea-449e-ad37-828215cb0bbd",
+          "size": {
+            "height": 259,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 290.39999771118164,
+            "y": 301
+          },
+          "nodeIndex": "Depense",
+          "nodeLineageTag": "ee0cfa54-1529-4bd5-a740-9e72cb2420e7",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1034.6999931335449,
+            "y": 377
+          },
+          "nodeIndex": "Table_Titres",
+          "nodeLineageTag": "e5176ae3-eb87-4d25-847a-67d378e726d9",
+          "size": {
+            "height": 277.5,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1033.3999977111816,
+            "y": 0
+          },
+          "nodeIndex": "Table_Mesures",
+          "size": {
+            "height": 349,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Toutes les tables",
+      "zoomValue": 80,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Toutes les tables",
+  "defaultDiagram": "Toutes les tables"
+}

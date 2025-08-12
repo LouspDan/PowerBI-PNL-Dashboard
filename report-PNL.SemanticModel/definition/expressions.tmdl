@@ -1,0 +1,118 @@
+expression Requête1 =
+		let
+		    Source = (StartDate as date, EndDate as date, optional Culture as nullable text) as table =>
+		  let
+		    DayCount = Duration.Days(Duration.From(EndDate - StartDate)),
+		    Source = List.Dates(StartDate,DayCount,#duration(1,0,0,0)),
+		    TableFromList = Table.FromList(Source, Splitter.SplitByNothing()),
+		    ChangedType = Table.TransformColumnTypes(TableFromList,{{"Column1", type date}}),
+		    RenamedColumns = Table.RenameColumns(ChangedType,{{"Column1", "Date"}}),
+		    InsertYear = Table.AddColumn(RenamedColumns, "Année", each Date.Year([Date])),
+		    InsertQuarter = Table.AddColumn(InsertYear, "Trimestre", each Date.QuarterOfYear([Date])),
+		    InsertMonth = Table.AddColumn(InsertQuarter, "MoisNombre", each Date.Month([Date])),
+		    InsertDay = Table.AddColumn(InsertMonth, "Jour", each Date.Day([Date])),
+		    InsertDayInt = Table.AddColumn(InsertDay, "DateNombre", each [Année] * 10000 + [MoisNombre] * 100 + [Jour]),
+		    InsertMonthName = Table.AddColumn(InsertDayInt, "MoisNom", each Date.ToText([Date], "MMMM", Culture), type text),
+		    InsertCalendarMonth = Table.AddColumn(InsertMonthName, "MoisCalendrier", each (try(Text.Range([MoisNom],0,3)) otherwise [MoisNom]) & " " & Number.ToText([Année])),
+		    InsertCalendarQtr = Table.AddColumn(InsertCalendarMonth, "TrimestreCalendrier", each "T" & Number.ToText([Trimestre]) & " " & Number.ToText([Année])),
+		    InsertDayWeek = Table.AddColumn(InsertCalendarQtr, "JourSemaine", each Date.DayOfWeek([Date])),
+		    InsertDayName = Table.AddColumn(InsertDayWeek, "NomJourSemaine", each Date.ToText([Date], "dddd", Culture), type text),
+		    InsertWeekEnding = Table.AddColumn(InsertDayName, "FinSemaine", each Date.EndOfWeek([Date]), type date)
+		  in
+		    InsertWeekEnding
+		in
+		    Source
+	lineageTag: 0cbaefc7-093a-4dd0-962b-d8b82df9b00d
+	queryGroup: 'Erreurs des requêtes – 23/03/2024 22:16:27'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Function
+
+expression 'data_Type modifié1_Counters_2024-03-23_22:27' = ```
+		let
+		    TransformCsv = (filecontents as binary) => [
+		        Source = Csv.Document(filecontents,[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		        result = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+		    ][result],
+		    CsvFiles = #table(type table[Id = text, File = text], {
+		        {"1.1", "C:\Users\CYTech Student\AppData\Local\Microsoft\Power BI Desktop\Traces\Diagnostics\EvaluationCounters_20240323T222744.645-c607eb88-a618-4401-bc45-67f482e2be62-1-001.csv"}
+		    }),
+		    GetContents = Table.AddColumn(CsvFiles, "Content", each File.Contents([File])),
+		    AddColumn = Table.AddColumn(GetContents, "Transform File", each TransformCsv([Content])),
+		    ExpandedTransformFile = Table.ExpandTableColumn(AddColumn, "Transform File", 
+		                { "Timestamp", "Processor Time (%)", "Total Processor Time", "IO Data Bytes Per Second", "Commit (bytes)", "Working Set (bytes)" },
+		                { "Timestamp", "Processor Time (%)", "Total Processor Time", "IO Data Bytes Per Second", "Commit (bytes)", "Working Set (bytes)" }),
+		    TransformedColumns = Table.TransformColumnTypes(ExpandedTransformFile,
+		        {{"Timestamp", type datetime}, {"Processor Time (%)", Percentage.Type}, {"Total Processor Time", type duration}, {"IO Data Bytes Per Second", type number}, {"Commit (bytes)", Int64.Type}, {"Working Set (bytes)", Int64.Type}}),
+		    RemovedColumns = Table.RemoveColumns(TransformedColumns, {"File", "Content"})
+		in
+		    RemovedColumns
+		```
+	lineageTag: 3bf392e1-95ed-4146-a95f-8df969233697
+	queryGroup: Diagnostics
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'data_Type modifié1_Detailed_2024-03-23_22:27' = ```
+		let
+		    Source = Json.Document(File.Contents("C:\Users\CYTech Student\AppData\Local\Microsoft\Power BI Desktop\Traces\Diagnostics\Diagnostics_Detailed_20240323T222745.545-ff788abc-2bf6-441c-b687-1aa7d9f7178f.json")),
+		    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1",
+		        {"Id", "Query", "Step", "Category", "DataSourceKind", "Operation", "StartTime", "EndTime", "ExclusiveDurationPct", "ExclusiveDuration", "Resource", "DataSourceQuery", "AdditionalInfo", "RowCount", "ContentLength", "IsUserQuery", "Path", "GroupId", "PartitionKey", "Process", "ActivityId", "DataSourceOperationIds"},
+		        {"Id", "Query", "Step", "Category", "Data Source Kind", "Operation", "Start Time", "End Time", "Exclusive Duration (%)", "Exclusive Duration", "Resource", "Data Source Query", "Additional Info", "Row Count", "Content Length", "Is User Query", "Path", "Group Id", "Partition Key", "Process", "Activity Id", "Data Source Operation Identifiers"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Column1", 
+		        {{"Id", type text}, {"Query", type text}, {"Step", type text}, {"Category", type text}, {"Data Source Kind", type text}, {"Operation", type text}, {"Start Time", type datetime}, {"End Time", type datetime}, {"Exclusive Duration (%)", Percentage.Type}, {"Exclusive Duration", type duration}, {"Resource", type text}, {"Data Source Query", type text}, {"Additional Info", type any}, {"Row Count", Int64.Type}, {"Content Length", Int64.Type}, {"Is User Query", type logical}, {"Path", type text}, {"Group Id", type number}, {"Partition Key", type text}, {"Process", type text}, {"Activity Id", type text}, {"Data Source Operation Identifiers", type any}})
+		in
+		    #"Changed Type"
+		```
+	lineageTag: dc2c19e4-44ef-41aa-9d9a-ee527116629a
+	queryGroup: Diagnostics
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'data_Type modifié1_Aggregated_2024-03-23_22:27' = ```
+		let
+		    Source = Json.Document(File.Contents("C:\Users\CYTech Student\AppData\Local\Microsoft\Power BI Desktop\Traces\Diagnostics\Diagnostics_Aggregated_20240323T222745.545-ff788abc-2bf6-441c-b687-1aa7d9f7178f.json")),
+		    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1",
+		        {"Id", "Query", "Step", "Category", "DataSourceKind", "Operation", "StartTime", "EndTime", "ExclusiveDurationPct", "ExclusiveDuration", "Resource", "DataSourceQuery", "AdditionalInfo", "RowCount", "ContentLength", "IsUserQuery", "Path", "GroupId", "PartitionKey"},
+		        {"Id", "Query", "Step", "Category", "Data Source Kind", "Operation", "Start Time", "End Time", "Exclusive Duration (%)", "Exclusive Duration", "Resource", "Data Source Query", "Additional Info", "Row Count", "Content Length", "Is User Query", "Path", "Group Id", "Partition Key"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Column1", 
+		        {{"Id", type text}, {"Query", type text}, {"Step", type text}, {"Category", type text}, {"Data Source Kind", type text}, {"Operation", type text}, {"Start Time", type datetime}, {"End Time", type datetime}, {"Exclusive Duration (%)", Percentage.Type}, {"Exclusive Duration", type duration}, {"Resource", type text}, {"Data Source Query", type text}, {"Additional Info", type any}, {"Row Count", Int64.Type}, {"Content Length", Int64.Type}, {"Is User Query", type logical}, {"Path", type text}, {"Group Id", type number}, {"Partition Key", type text}})
+		in
+		    #"Changed Type"
+		```
+	lineageTag: c4a91c40-564e-4be0-bc05-d9a35b6d9f74
+	queryGroup: Diagnostics
+
+	annotation PBI_ResultType = Table
+
+expression 'data_Type modifié1_Partitions_2024-03-23_22:27' = ```
+		let
+		    Source = Json.Document(File.Contents("C:\Users\CYTech Student\AppData\Local\Microsoft\Power BI Desktop\Traces\Diagnostics\Diagnostics_Partitions_20240323T222745.545-ff788abc-2bf6-441c-b687-1aa7d9f7178f.json")),
+		    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1",
+		        {"Id", "PartitionKey", "FirewallGroup", "AccessedResources", "PartitionInputs", "Expression", "StartTime", "EndTime", "Duration", "ExclusiveDuration", "ExclusiveDurationPct"},
+		        {"Id", "Partition Key", "Firewall Group", "Accessed Resources", "Partition Inputs", "Expression", "Start Time", "End Time", "Duration", "Exclusive Duration", "Exclusive Duration (%)"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Expanded Column1", 
+		        {{"Id", type text}, {"Partition Key", type text}, {"Firewall Group", type text}, {"Accessed Resources", type any}, {"Partition Inputs", type any}, {"Expression", type text}, {"Start Time", type datetime}, {"End Time", type datetime}, {"Duration", type duration}, {"Exclusive Duration", type duration}, {"Exclusive Duration (%)", Percentage.Type}}),
+		    AddPartitionId = (targetTable as table) => Table.AddColumn(targetTable, "PartitionId", each Text.Combine({[Id], ".", [Partition Key]}), type text),
+		    RemovePartitionId = (column as any) => if column is table then Table.RemoveColumns(column, {"PartitionId"}) else column,
+		    AddedDiagnosticsColumn = Table.NestedJoin(AddPartitionId(#"Changed Type"), {"PartitionId"}, AddPartitionId(#"data_Type modifié1_Detailed_2024-03-23_22:27"), {"PartitionId"}, "Diagnostics", JoinKind.LeftOuter),
+		    RemovedPartitionIdOnDiagnostics = Table.TransformColumns(AddedDiagnosticsColumn, {"Diagnostics", RemovePartitionId}, null, MissingField.UseNull),
+		    RemovedPartitionId = RemovePartitionId(RemovedPartitionIdOnDiagnostics)
+		in
+		    RemovedPartitionId
+		```
+	lineageTag: ed01692a-4b41-4085-a08a-cd5cf8feaf9b
+	queryGroup: Diagnostics
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

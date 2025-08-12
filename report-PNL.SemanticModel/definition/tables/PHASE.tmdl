@@ -1,0 +1,37 @@
+table PHASE
+	lineageTag: 0a8fbdb4-c1f4-496b-bb2d-ff32ae12b0fb
+
+	column ID_PHASE
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 85e29a4c-aa62-44b1-9607-c85b39da4c83
+		summarizeBy: none
+		sourceColumn: ID_PHASE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Scenario
+		dataType: string
+		lineageTag: 2e027d52-166f-45d1-a753-c965a56a6e90
+		summarizeBy: none
+		sourceColumn: Scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PHASE = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\PROJET\P2L CAC40\Data_Sources\PHASE.xlsx"), null, true),
+				    Tableau3_Table = Source{[Item="Tableau3",Kind="Table"]}[Data],
+				    #"Type modifié" = Table.TransformColumnTypes(Tableau3_Table,{{"ID_PHASE", Int64.Type}, {"Scenario", type text}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

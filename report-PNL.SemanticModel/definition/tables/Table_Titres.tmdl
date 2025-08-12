@@ -1,0 +1,43 @@
+table Table_Titres
+	lineageTag: e5176ae3-eb87-4d25-847a-67d378e726d9
+
+	measure Titre_PL = ```
+			"Analyse P&L " & [Select_Month]  &  " " & [Select_Year] 
+			```
+		lineageTag: a59b97b4-7b22-496c-aa35-264d0b3c5920
+
+	measure Select_Month = SELECTEDVALUE(Calendrier[MoisNom])
+		lineageTag: 079b7449-d71c-4173-82fc-03941881675a
+
+	measure Select_Year = SELECTEDVALUE(Calendrier[Année], "Toutes les valeurs")
+		lineageTag: f4e0d399-9ff7-48ed-9626-09e6fab565e1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Titre_Business Unit' = "Analyse Business Unit " & [Select_Month]  &  " " & [Select_Year] & " " & "pour" & " " & [SelectContinent]
+		lineageTag: d5c1b333-0e47-41ba-ab4a-60b0afb715bf
+
+	measure SelectContinent = SELECTEDVALUE(Entity[Continent],"tout le continent")
+		lineageTag: cd29c796-2c41-455b-a3bb-2827256c28ec
+
+	measure Titre_Pays = "Analyse conso par pays" & " " & [Select_Month] & "" & [Select_Year]
+		lineageTag: 9ea74001-3899-4304-b478-98eec3185cd3
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 897c9929-c3ea-4386-b246-92d2e3a9ad6e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table_Titres = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 53b28ac54dd64b5ea34b5a284ccce39e
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

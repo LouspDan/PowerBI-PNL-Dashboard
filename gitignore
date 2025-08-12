@@ -1,0 +1,23 @@
+# Power BI / BI
+*.pbix
+*.rdl
+*.rpbix
+*.pbids
+*.pbit.local
+
+# Data files (gros volumes) — garder un sample uniquement
+/data/*
+!data-sample/**
+
+# Systèmes
+.DS_Store
+Thumbs.db
+
+# VSCode / IDE
+.vscode/
+.idea/
+
+# Python / notebooks (si utilisés en v2)
+__pycache__/
+.ipynb_checkpoints/
+.venv/

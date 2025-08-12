@@ -1,0 +1,64 @@
+model Model
+	culture: fr-FR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: fr-FR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// Erreurs dans les requêtes qui ont été chargées sur 23/03/2024 20:38:26.
+queryGroup 'Erreurs des requêtes – 23/03/2024 20:38:26'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Erreurs dans les requêtes qui ont été chargées sur 23/03/2024 22:16:27.
+queryGroup 'Erreurs des requêtes – 23/03/2024 22:16:27'
+
+	annotation PBI_QueryGroupOrder = 1
+
+/// Groupe de requêtes pour les diagnostics
+queryGroup Diagnostics
+
+	annotation PBI_QueryGroupOrder = 2
+
+/// Erreurs dans les requêtes qui ont été chargées sur 23/03/2024 23:31:33.
+queryGroup 'Erreurs des requêtes – 23/03/2024 23:31:33'
+
+	annotation PBI_QueryGroupOrder = 3
+
+/// Erreurs dans les requêtes qui ont été chargées sur 23/03/2024 23:33:55.
+queryGroup 'Erreurs des requêtes – 23/03/2024 23:33:55'
+
+	annotation PBI_QueryGroupOrder = 4
+
+/// Erreurs dans les requêtes qui ont été chargées sur 23/03/2024 23:36:40.
+queryGroup 'Erreurs des requêtes – 23/03/2024 23:36:40'
+
+	annotation PBI_QueryGroupOrder = 5
+
+/// Erreurs dans les requêtes qui ont été chargées sur 23/03/2024 23:43:02.
+queryGroup 'Erreurs des requêtes – 23/03/2024 23:43:02'
+
+	annotation PBI_QueryGroupOrder = 6
+
+annotation PBI_QueryOrder = ["Requête1","PHASE","data_Type modifié1_Counters_2024-03-23_22:27","data_Type modifié1_Detailed_2024-03-23_22:27","data_Type modifié1_Aggregated_2024-03-23_22:27","data_Type modifié1_Partitions_2024-03-23_22:27","Compte","Entity","Calendrier","Depense"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.145.1602.0 (25.07)+10647c9fa319b5e39936cdb21328038c371d1fe4
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_9ea366c4-f219-4ef2-8a95-84a531dc3846
+ref table PHASE
+ref table Table_Mesures
+ref table Compte
+ref table Entity
+ref table Calendrier
+ref table LocalDateTable_4a8dd48e-c873-4d19-a556-59a64185af3a
+ref table LocalDateTable_344b61bb-a861-4e2a-8b3c-a4b2f0d7ed60
+ref table Depense
+ref table Table_Titres
+
+ref cultureInfo fr-FR
+

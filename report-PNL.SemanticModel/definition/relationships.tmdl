@@ -1,0 +1,26 @@
+relationship 709d4178-6f12-493b-8bcd-58fc8d355323
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendrier.Date
+	toColumn: LocalDateTable_4a8dd48e-c873-4d19-a556-59a64185af3a.Date
+
+relationship 2ef9646e-6945-4aa1-ad52-2343688c8fd2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendrier.FinSemaine
+	toColumn: LocalDateTable_344b61bb-a861-4e2a-8b3c-a4b2f0d7ed60.Date
+
+relationship e99bd63e-58af-4d52-92c7-b037e24feb5f
+	fromColumn: Depense.ID_PHASE
+	toColumn: PHASE.ID_PHASE
+
+relationship 9a6609b5-3863-4d71-9cd7-8cf03464b31a
+	fromColumn: Depense.Date
+	toColumn: Calendrier.Date
+
+relationship 3e98f048-ac5b-4c9f-ae47-92b468296887
+	fromColumn: Depense.ID_ACCOUNT
+	toColumn: Compte.ID
+
+relationship 5f795653-0892-4356-8321-b382610a1d00
+	fromColumn: Depense.ID_ENTITY
+	toColumn: Entity.ID_ENTITY
+

@@ -1,0 +1,88 @@
+table Table_Mesures
+	lineageTag: 352fafe3-a007-4e7d-8ead-0ffd00617c92
+
+	measure 'Ratio Conso vs Budget' = DIVIDE([Conso]-[Budget], [Budget])
+		formatString: 0\ %;-0\ %;0\ %
+		lineageTag: 1b418fa2-1726-4bf9-b444-5d4ce2b2e94b
+
+	measure Ratio_Conso = DIVIDE( [Conso] - [Conso Y-1],[Conso Y-1])
+		formatString: 0\ %;-0\ %;0\ %
+		lineageTag: f3a26672-30f3-4f74-a164-60e6980f99e1
+
+	measure conso-Budget = [Conso] - [Budget]
+		formatString: #,0\ "€";-#,0\ "€";#,0\ "€"
+		lineageTag: 1a9c3de9-e694-4435-a524-7549d0aaf127
+
+		annotation PBI_FormatHint = {"currencyCulture":"fr-FR"}
+
+	measure Conso/Budget = DIVIDE([Conso] , [Budget])
+		formatString: 0\ %;-0\ %;0\ %
+		lineageTag: 6f13c622-1f4c-4486-81c9-bd80bc8558af
+
+	measure 'Conso Y-1' = CALCULATE([Conso],SAMEPERIODLASTYEAR(Calendrier[Date]))
+		formatString: #,0\ "€";-#,0\ "€";#,0\ "€"
+		lineageTag: 21ae71cb-c02b-4c75-a369-4987b274ceeb
+
+		annotation PBI_FormatHint = {"currencyCulture":"fr-FR"}
+
+	measure Conso = CALCULATE ( [Montant], KEEPFILTERS ( PHASE[Scenario] = "Conso" ) )
+		formatString: #,0\ "€";-#,0\ "€";#,0\ "€"
+		lineageTag: 67982053-819b-4ec8-98c1-7e49db14a594
+
+		annotation PBI_FormatHint = {"currencyCulture":"fr-FR"}
+
+	measure Budget = CALCULATE ( [Montant], KEEPFILTERS ( PHASE[Scenario] = "Budget" ) )
+		formatString: #,0\ "€";-#,0\ "€";#,0\ "€"
+		lineageTag: da2ccc70-16ef-4d2c-baef-f15da71b3867
+
+		annotation PBI_FormatHint = {"currencyCulture":"fr-FR"}
+
+	measure 'Budget MoM%' =
+			
+			IF(
+				ISFILTERED('Calendrier'[Date]),
+				ERROR("Les mesures rapides de Time Intelligence peuvent être regroupées ou filtrées seulement par la hiérarchie de dates ou les colonnes de dates principales fournies par Power BI."),
+				VAR __PREV_MONTH = CALCULATE([Budget], DATEADD('Calendrier'[Date].[Date], -1, MONTH))
+				RETURN
+					DIVIDE([Conso] - __PREV_MONTH, __PREV_MONTH)
+			)
+		formatString: 0
+		lineageTag: f7246c46-76d8-41f5-9f95-684cb74f58c8
+
+	measure 'Conso MoM%' =
+			
+			IF(
+				ISFILTERED('Calendrier'[Date]),
+				ERROR("Les mesures rapides de Time Intelligence peuvent être regroupées ou filtrées seulement par la hiérarchie de dates ou les colonnes de dates principales fournies par Power BI."),
+				VAR __PREV_MONTH = CALCULATE([Conso], DATEADD('Calendrier'[Date].[Date], -1, MONTH))
+				RETURN
+					DIVIDE([Conso] - __PREV_MONTH, __PREV_MONTH)
+			)
+		formatString: 0
+		lineageTag: adea9149-d715-48a1-9b4a-3410c833af76
+
+	measure Montant =
+			
+			SUM ( Depense[Montant] )
+		lineageTag: ff17db48-26b7-4c7c-b7fc-e0b092a23e8b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 137e6063-8889-4358-9c58-54824a98d451
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = User
+
+	partition Table_Mesures = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = c84a397d708b434ea50e3ddee36b8174
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

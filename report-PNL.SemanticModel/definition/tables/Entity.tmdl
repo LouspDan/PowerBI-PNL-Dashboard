@@ -1,0 +1,93 @@
+table Entity
+	lineageTag: 89699795-a746-413e-9fca-ce06a2052d62
+
+	column ID_ENTITY
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 08b54691-1c6d-4fbc-9011-3b7ed7cc1d89
+		summarizeBy: none
+		sourceColumn: ID_ENTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LABEL_ENTITY
+		dataType: string
+		isHidden
+		lineageTag: 0ff436fe-82a4-4057-803d-390fd17a23e6
+		summarizeBy: none
+		sourceColumn: LABEL_ENTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business Unit'
+		dataType: string
+		isHidden
+		lineageTag: fd1f67a2-c8db-43b9-bad4-d4e44d49a584
+		summarizeBy: none
+		sourceColumn: Business Unit
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		isHidden
+		lineageTag: 568de798-ed7b-4604-82c5-9575b40445f4
+		summarizeBy: none
+		sourceColumn: Country
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Continent
+		dataType: string
+		isHidden
+		lineageTag: 634f4824-f70c-45c1-a68f-3556bd650c18
+		summarizeBy: none
+		sourceColumn: Continent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Business Unit Hiérarchie'
+		lineageTag: 689149ab-e5c3-41d4-ae9a-71e6b74ddcfa
+
+		level 'Business Unit'
+			lineageTag: e6a913b9-649c-454d-a030-9b6ddeef0edd
+			column: 'Business Unit'
+
+		level Continent
+			lineageTag: b110ad8e-c57c-49c0-b6ea-14c43d4d9a5f
+			column: Continent
+
+		level Country
+			lineageTag: 955fd578-1a98-43ae-8664-d03c943d4e82
+			column: Country
+
+		level LABEL_ENTITY
+			lineageTag: 9e60b1dc-a0d2-4211-92eb-7aead83e8f2a
+			column: LABEL_ENTITY
+
+	partition Entity = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\PROJET\P2L CAC40\Data_Sources\Dim Entity & Pays.xlsx"), null, true),
+				    Entity_Sheet = Source{[Item="Entity",Kind="Sheet"]}[Data],
+				    #"En-têtes promus" = Table.PromoteHeaders(Entity_Sheet, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"ID_ENTITY", Int64.Type}, {"LABEL_ENTITY", type text}, {"Business Unit", type text}, {"Country", type text}, {"Continent", type text}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

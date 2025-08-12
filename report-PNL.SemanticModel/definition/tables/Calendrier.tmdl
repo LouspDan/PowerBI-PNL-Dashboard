@@ -1,0 +1,184 @@
+table Calendrier
+	lineageTag: ed032e78-7ef9-4e18-9b24-8c4beffe6101
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 68363ab2-a0c6-4154-8350-d6f829684ae9
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 709d4178-6f12-493b-8bcd-58fc8d355323
+			defaultHierarchy: LocalDateTable_4a8dd48e-c873-4d19-a556-59a64185af3a.'Hiérarchie de dates'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Année
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ee767c6a-78b4-4a39-8519-12231965b37c
+		summarizeBy: none
+		sourceColumn: Année
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column Trimestre
+		dataType: string
+		isHidden
+		lineageTag: bd7df33a-97e7-4dce-8d8d-ab165eaa674c
+		summarizeBy: none
+		sourceColumn: Trimestre
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MoisNombre
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 82e20017-20f1-46cb-af47-6c8a4bc0457a
+		summarizeBy: none
+		sourceColumn: MoisNombre
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column Jour
+		dataType: string
+		isHidden
+		lineageTag: d5dffa72-0110-4d50-b981-57554612d0f8
+		summarizeBy: none
+		sourceColumn: Jour
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateNombre
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1a51e5e5-b568-40bc-aebe-0f53290dd405
+		summarizeBy: none
+		sourceColumn: DateNombre
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column MoisNom
+		dataType: string
+		isHidden
+		lineageTag: 23c26378-56f7-4102-850f-2e50afce2b0a
+		summarizeBy: none
+		sourceColumn: MoisNom
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MoisCalendrier
+		dataType: string
+		isHidden
+		lineageTag: cc8d9e5a-2ec6-43b5-bf37-4f5986977c40
+		summarizeBy: none
+		sourceColumn: MoisCalendrier
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrimestreCalendrier
+		dataType: string
+		isHidden
+		lineageTag: dfdab92d-eb3e-4b97-b5c9-ac002e4af93e
+		summarizeBy: none
+		sourceColumn: TrimestreCalendrier
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column JourSemaine
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e6695e70-6ab5-40a6-94a0-cc956b3bbdc3
+		summarizeBy: none
+		sourceColumn: JourSemaine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column NomJourSemaine
+		dataType: string
+		isHidden
+		lineageTag: 0b0d298e-552a-433a-878a-cca95a9ea6d4
+		summarizeBy: none
+		sourceColumn: NomJourSemaine
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinSemaine
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: bbebd740-9561-458e-b813-834292b4fdff
+		summarizeBy: none
+		sourceColumn: FinSemaine
+
+		variation Variation
+			isDefault
+			relationship: 2ef9646e-6945-4aa1-ad52-2343688c8fd2
+			defaultHierarchy: LocalDateTable_344b61bb-a861-4e2a-8b3c-a4b2f0d7ed60.'Hiérarchie de dates'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	hierarchy 'Année Hiérarchie'
+		lineageTag: 51dd2243-fdd5-4cf8-b744-1790563b1b8a
+
+		level Année
+			lineageTag: 10241ace-a5a4-4a25-9ab3-659237ef5cee
+			column: Année
+
+		level Trimestre
+			lineageTag: efabf25f-49d3-4666-9d9f-07cc4fa0cc0b
+			column: Trimestre
+
+		level Mois
+			lineageTag: 9f8c2028-810f-4935-9881-044d7dbba602
+			column: MoisNom
+
+	partition Calendrier = m
+		mode: import
+		source =
+				let
+				    Source = Requête1(#date(2017, 1, 1), #date(2020, 12, 31), null),
+				    #"Type modifié" = Table.TransformColumnTypes(Source,{{"Date", type date}, {"Année", Int64.Type}, {"MoisNombre", Int64.Type}, {"DateNombre", Int64.Type}, {"JourSemaine", Int64.Type}}),
+				    #"Lignes filtrées" = Table.SelectRows(#"Type modifié", each ([Année] <> 2017))
+				in
+				    #"Lignes filtrées"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

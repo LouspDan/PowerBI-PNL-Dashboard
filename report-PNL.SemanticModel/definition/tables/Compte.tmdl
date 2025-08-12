@@ -1,0 +1,96 @@
+table Compte
+	lineageTag: 53ca1062-c5ea-449e-ad37-828215cb0bbd
+
+	measure LEV1_Values = DISTINCT ( Compte[LABEL ACC LEV1] )
+		lineageTag: c6bef6e3-4789-42c4-8d7a-1e34929b3201
+
+	column ID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 76fe9222-5605-4181-9e3b-9cd82f814eef
+		summarizeBy: none
+		sourceColumn: ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'LABEL ACC LEV1'
+		dataType: string
+		isHidden
+		lineageTag: 66e3ea74-8c39-4d32-b8a7-09ed609347c6
+		summarizeBy: none
+		sourceColumn: LABEL ACC LEV1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'LABEL ACC LEV2'
+		dataType: string
+		isHidden
+		lineageTag: 827f4aec-dd1f-4807-8f8a-29bf30f1630c
+		summarizeBy: none
+		sourceColumn: LABEL ACC LEV2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'LABEL ACC LEV3'
+		dataType: string
+		isHidden
+		lineageTag: 01c948f6-9073-4c40-8096-1cfcc5711faf
+		summarizeBy: none
+		sourceColumn: LABEL ACC LEV3
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'LABEL ACC LEV4'
+		dataType: string
+		isHidden
+		lineageTag: d7557f57-2b84-4a29-aaf0-9bc87c933a19
+		summarizeBy: none
+		sourceColumn: LABEL ACC LEV4
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'LABEL ACC LEV4 Hiérarchie'
+		lineageTag: 134a3618-1302-4da9-8034-27301e19390f
+
+		level 'LABEL ACC LEV4'
+			lineageTag: 4d6ba897-5851-49c3-ad08-b520cdf2b442
+			column: 'LABEL ACC LEV4'
+
+		level 'LABEL ACC LEV3'
+			lineageTag: dcece3cb-464b-48c6-8b1a-9c106963b7d8
+			column: 'LABEL ACC LEV3'
+
+		level 'LABEL ACC LEV2'
+			lineageTag: 34385bea-32af-40a8-8c01-133c65b0f73c
+			column: 'LABEL ACC LEV2'
+
+		level 'LABEL ACC LEV1'
+			lineageTag: bfed9453-3703-4164-a69b-5daa28e32175
+			column: 'LABEL ACC LEV1'
+
+	partition Compte = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\PROJET\P2L CAC40\Data_Sources\Comptes Hierarchie.xlsx"), null, true),
+				    Table_Sheet = Source{[Item="Table",Kind="Sheet"]}[Data],
+				    #"En-têtes promus" = Table.PromoteHeaders(Table_Sheet, [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"ID", Int64.Type}, {"LABEL ACC LEV1", type text}, {"LABEL ACC LEV2", type text}, {"LABEL ACC LEV3", type text}, {"LABEL ACC LEV4", type text}})
+				in
+				    #"Type modifié"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

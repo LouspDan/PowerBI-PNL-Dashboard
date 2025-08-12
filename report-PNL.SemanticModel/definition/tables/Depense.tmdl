@@ -1,0 +1,83 @@
+table Depense
+	lineageTag: ee0cfa54-1529-4bd5-a740-9e72cb2420e7
+
+	column ID_ACCOUNT
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b0b65683-a0ee-4b95-905b-9ef8a734a9e3
+		summarizeBy: none
+		sourceColumn: ID_ACCOUNT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID_ENTITY
+		dataType: string
+		isHidden
+		lineageTag: ec61425a-9df9-4e1f-ab5e-fd2f048029a2
+		summarizeBy: none
+		sourceColumn: ID_ENTITY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID_PHASE
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8d658ee6-5cc5-4212-b320-ab79f986ca89
+		summarizeBy: none
+		sourceColumn: ID_PHASE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Montant
+		dataType: double
+		lineageTag: 8d42cc92-3a66-450c-b862-0174c7d3c317
+		summarizeBy: none
+		sourceColumn: Montant
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: f00de181-16f1-4c04-82c0-08a861e5ba29
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Depense = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\PROJET\P2L CAC40\Data_Sources\data.xlsx")),
+				    Feuil1_sheet = Source{[Item="Feuil1",Kind="Sheet"]}[Data],
+				    FilterNullAndWhitespace = each List.Select(_, each _ <> null and (not (_ is text) or Text.Trim(_) <> "")),
+				    #"Dernières lignes supprimées" = Table.RemoveLastN(Feuil1_sheet, each try List.IsEmpty(List.Skip(FilterNullAndWhitespace(Record.FieldValues(_)), 1)) otherwise false),
+				    #"En-têtes promus" = Table.PromoteHeaders(#"Dernières lignes supprimées", [PromoteAllScalars=true]),
+				    #"Type modifié" = Table.TransformColumnTypes(#"En-têtes promus",{{"YEAR", Int64.Type}, {"MONTH", Int64.Type}, {"ID_ACCOUNT", Int64.Type}, {"ID_ENTITY", type any}, {"ID_PHASE", Int64.Type}, {"Montant", type number}}),
+				    #"Personnalisée ajoutée" = Table.AddColumn(#"Type modifié", "Date", each Date.From(Date.FromText(Text.From([YEAR]) & "-" & Text.PadStart(Text.From([MONTH]), 2, "0") & "-01"))),
+				    #"Type modifié1" = Table.TransformColumnTypes(#"Personnalisée ajoutée",{{"Date", type date}, {"ID_ENTITY", type text}}),
+				    #"Valeur remplacée" = Table.ReplaceValue(#"Type modifié1","DIJON SERVICES","221",Replacer.ReplaceText,{"ID_ENTITY"}),
+				    #"Colonnes supprimées" = Table.RemoveColumns(#"Valeur remplacée",{"YEAR", "MONTH"})
+				in
+				    #"Colonnes supprimées"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

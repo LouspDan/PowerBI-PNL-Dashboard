@@ -1,0 +1,3 @@
+-- Noyau
+Montant :=
+SUM ( Depense[Montant] )
